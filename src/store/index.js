@@ -6,30 +6,53 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     accountStatus: "Create New Account",
-    form: {
-      firstName: undefined,
-      lastName: undefined,
-      accountNumber: undefined,
-      taxId: undefined,
-      address: undefined,
-    },
+    user: [
+      {
+        name: undefined,
+        firstName: undefined,
+        lastName: undefined,
+        accountNumber: undefined,
+        taxId: undefined,
+        address: undefined,
+        userId: undefined,
+        password: undefined,
+      },
+    ],
+    currentUser: undefined,
   },
   mutations: {
     accountStatus(state, accountStatus) {
       state.accountStatus = accountStatus;
     },
-    form(state, form) {
-      state.form = form;
+    user(state, user) {
+      state.user = user;
+    },
+    addUser(state, user) {
+      state.user.push(user);
+    },
+    updateUser(state, { userId, user }) {
+      state.user[userId] = user;
+    },
+    currentUser(state, user) {
+      state.currentUser = user;
+    },
+    removeCurrentUser(state) {
+      state.currentUser = undefined;
     },
   },
   actions: {
-    async getMessage({ commit, state }) {
-      if (!state.accountStatus) {
-        const status = {
-          accountStatus: "Create New Account",
-        };
-        commit("message", status);
+    async getUser({ commit }, { email, password }) {
+      const user = this.state.user.find(
+        (u) => u.email === email && u.password === password
+      );
+      if (user) {
+        commit("currentUser", user);
       }
+    },
+  },
+  getters: {
+    getCurrentUser(state) {
+      return state.currentUser;
     },
   },
   modules: {},
