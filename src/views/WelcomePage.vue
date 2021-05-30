@@ -1,14 +1,14 @@
 <template>
-<b-container>
+  <b-container>
     <div>
-        <b-jumbotron header="Claims Portal" lead="Gas company claim portal">
-            <p>Call Center Portal to register customer complaints.</p>
-        </b-jumbotron>
+      <b-jumbotron header="Claims Portal" lead="Gas company claim portal">
+        <p>Call Center Portal to register customer complaints.</p>
+      </b-jumbotron>
     </div>
-</b-container>
+  </b-container>
 </template>
 <script>
 export default {
-  name: "WelcomePage"
-}
+  name: "WelcomePage",
+};
 </script>
