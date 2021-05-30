@@ -10,7 +10,6 @@
           <b-nav-item to="/">Home</b-nav-item>
         </b-navbar-nav>
 
-        <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
             <template #button-content>
@@ -22,9 +21,7 @@
             <b-dropdown-item v-show="getCurrentUser" @click="signOut"
               >Sign Out</b-dropdown-item
             >
-            <b-dropdown-item
-              v-show="!getCurrentUser"
-              v-b-modal.modal-prevent-closing
+            <b-dropdown-item v-show="!getCurrentUser" v-b-modal.signInModal
               >Sign In</b-dropdown-item
             >
           </b-nav-item-dropdown>
@@ -32,7 +29,7 @@
       </b-collapse>
     </b-navbar>
     <b-modal
-      id="modal-prevent-closing"
+      id="signInModal"
       ref="modal"
       title="Sign in"
       @show="resetModal"
@@ -127,19 +124,17 @@ export default {
 
       // Hide the modal manually
       this.$nextTick(() => {
-        this.$bvModal.hide("modal-prevent-closing");
-        localStorage.setItem("userId", this.userId);
-        this.$store.commit("user", this.$store.state.currentUser);
-        if (this.getCurrentUser) {
-          this.$router.replace({ name: "CustomerHomePage" });
+        this.$bvModal.hide("signInModal");
+        this.$store.commit("currentUser", this.$store.state.currentUser);
+        if (this.$route.name !== "Home") {
+          this.$router.replace({ name: "Home" });
         }
       });
     },
     signOut() {
-      localStorage.removeItem("userId");
-      this.$store.commit("user", null);
+      this.$store.commit("currentUser", null);
       this.$store.commit("removeCurrentUser");
-      if (this.$route.name == "Register") {
+      if (this.$route.name !== "Home") {
         this.$router.replace({ name: "Home" });
       }
     },
@@ -147,15 +142,16 @@ export default {
 };
 </script>
 <style>
-.user-icon {
-  margin: 0 5px !important;
+/* .navbar-collapse {
+  justify-content: space-between;
 }
-.quantity {
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px !important;
-  padding: 3px 5px !important;
-  margin-left: -5px !important;
-  font-size: 11px !important;
+
+.navbar {
+  padding: 30px;
 }
+
+.navbar a {
+  font-weight: bold;
+  color: #2c3e50;
+} */
 </style>
