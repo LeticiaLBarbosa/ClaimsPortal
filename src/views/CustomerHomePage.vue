@@ -5,7 +5,19 @@
     <p>Account Number: {{ user.accountNumber }}</p>
     <p>Address: {{ user.address }}</p>
     <h2>Claims</h2>
-    <b-table responsive :items="items" :fields="fields" show-empty></b-table>
+    <b-table responsive :items="items" :fields="fields" show-empty>
+      <template #cell(id)="data">
+        <!-- `data.value` is the value after formatted by the Formatter -->
+        <router-link
+          :to="{
+            name: 'ViewClaim',
+            params: { claimId: data.value },
+          }"
+          tag="a"
+          >{{ data.value }}</router-link
+        >
+      </template>
+    </b-table>
     <b-button to="/createClaim" variant="info">New Claim</b-button>
   </b-container>
 </template>
@@ -24,10 +36,17 @@ export default {
         lastName: "",
         accountNumber: "",
         address: "",
+        type: "",
       },
       fields: [
         {
-          key: "unique_id",
+          key: "id",
+          label: "ID",
+          headerTitle: "ID",
+          sortable: true,
+        },
+        {
+          key: "uniqueId",
           label: "Unique ID",
           headerTitle: "Unique ID",
           sortable: true,
@@ -55,21 +74,27 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([`getCurrentUser`]),
+    ...mapGetters([`getCurrentUser`, `claims`]),
   },
   async mounted() {
     if (this.getCurrentUser) {
       this.user = Object.assign({}, this.getCurrentUser);
     }
-    await this.$store.dispatch("getClaims");
-    this.items = this.$store.state.claims.map((c) => ({
-      ...c,
-      type:
-        c.type === "NO_SERVICE"
-          ? "Customer do not have Service"
-          : "Over-billing the Service",
-      date: moment(c.date).format("YYYY-MM-DD"),
-    }));
+
+    const filteredClaims = [];
+
+    for (let claim of this.claims) {
+      const newClaim = { ...claim };
+      if (claim.customerUserId === this.user.userId) {
+        newClaim.type =
+          newClaim.type === "NO_SERVICE"
+            ? "Customer do not have Service"
+            : "Over-billing the Service";
+        newClaim.date = moment(newClaim.date).format("YYYY-MM-DD");
+        filteredClaims.push(newClaim);
+      }
+    }
+    this.items = filteredClaims;
   },
 };
 </script>

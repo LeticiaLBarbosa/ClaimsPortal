@@ -1,26 +1,38 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div v-if="getCurrentUser && getCurrentUser.type === 'customer'">
+    <CustomerHomePage />
   </div>
+  <div v-else><WelcomePage /></div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
 import { mapGetters } from "vuex";
+import CustomerHomePage from "./CustomerHomePage.vue";
+import WelcomePage from "./WelcomePage.vue";
 
 export default {
   name: "Home",
   components: {
-    HelloWorld,
+    CustomerHomePage,
+    WelcomePage,
+  },
+  data() {
+    return {
+      user: {
+        name: "",
+        firstName: "",
+        lastName: "",
+        accountNumber: "",
+        address: "",
+      },
+    };
   },
   computed: {
     ...mapGetters([`getCurrentUser`]),
   },
-  mounted() {
+  async mounted() {
     if (this.getCurrentUser) {
-      this.$router.replace({ name: "CustomerHomePage" });
+      this.user = Object.assign({}, this.getCurrentUser);
     }
   },
 };

@@ -160,14 +160,14 @@ export default {
     },
     async onSubmit() {
       await this.$store.dispatch("addClaim", this.claim);
-      this.$router.replace({ name: "CustomerHomePage" });
+      this.$router.replace({ name: "Home" });
     },
     cancel() {
       this.claim = null;
       this.$nextTick(() => {
         if (this.$refs.observer) this.$refs.observer.reset();
       });
-      this.$router.replace({ name: "CustomerHomePage" });
+      this.$router.replace({ name: "Home" });
     },
   },
 };
