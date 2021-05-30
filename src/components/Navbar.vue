@@ -110,12 +110,12 @@ export default {
       // Trigger submit handler
       this.handleSubmit();
     },
-    handleSubmit() {
+    async handleSubmit() {
       // Exit when the form isn't valid
       if (!this.checkFormValidity()) {
         return;
       }
-      this.$store.dispatch("getUser", {
+      await this.$store.dispatch("getUser", {
         userId: this.userId,
         password: this.password,
       });
@@ -124,15 +124,20 @@ export default {
         this.error = "Invalid user id or password!";
         return;
       }
+
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide("modal-prevent-closing");
-        if (this.$route.name == "Register") {
-          this.$router.replace({ name: "Home" });
+        localStorage.setItem("userId", this.userId);
+        this.$store.commit("user", this.$store.state.currentUser);
+        if (this.getCurrentUser) {
+          this.$router.replace({ name: "CustomerHomePage" });
         }
       });
     },
     signOut() {
+      localStorage.removeItem("userId");
+      this.$store.commit("user", null);
       this.$store.commit("removeCurrentUser");
       if (this.$route.name == "Register") {
         this.$router.replace({ name: "Home" });

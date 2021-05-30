@@ -12,6 +12,9 @@ export default {
   components: {
     Navbar,
   },
+  async created() {
+    await this.$store.dispatch("tryLogin");
+  },
 };
 </script>
 <style>
@@ -29,5 +32,9 @@ export default {
 #nav a {
   font-weight: bold;
   color: #2c3e50;
+}
+
+.sr-only {
+  display: none;
 }
 </style>

@@ -230,11 +230,10 @@ export default {
     },
     onSubmit() {
       if (this.getCurrentUser) {
-        const userId = this.$store.state.user.findIndex(
-          (u) => u == this.getCurrentUser
+        const userIndex = this.$store.state.user.findIndex(
+          (u) => u.userId == this.getCurrentUser.userId
         );
-        console.log(userId);
-        this.$store.commit("updateUser", { userId: userId, user: this.frm });
+        this.$store.commit("updateUser", { userIndex, user: this.frm });
       } else {
         this.frm.userId =
           _.camelCase(this.frm.firstName + this.frm.lastName) +
@@ -243,7 +242,6 @@ export default {
           _.upperFirst(this.frm.firstName) + "@" + new Date().getFullYear();
         this.$store.commit("addUser", this.frm);
       }
-      this.$store.commit("addUser", this.frm);
       this.$router.replace({ name: "Home" });
     },
   },
