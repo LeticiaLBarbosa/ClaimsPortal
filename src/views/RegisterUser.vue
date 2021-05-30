@@ -229,19 +229,13 @@ export default {
       });
     },
     onSubmit() {
-      if (this.getCurrentUser) {
-        const userIndex = this.$store.state.user.findIndex(
-          (u) => u.userId == this.getCurrentUser.userId
-        );
-        this.$store.commit("updateUser", { userIndex, user: this.frm });
-      } else {
-        this.frm.userId =
-          _.camelCase(this.frm.firstName + this.frm.lastName) +
-          this.frm.taxId.substring(0, 4);
-        this.frm.password =
-          _.upperFirst(this.frm.firstName) + "@" + new Date().getFullYear();
-        this.$store.commit("addUser", this.frm);
-      }
+      this.frm.userId =
+        _.camelCase(this.frm.firstName + this.frm.lastName) +
+        this.frm.taxId.substring(0, 4);
+      this.frm.password =
+        _.upperFirst(this.frm.firstName) + "@" + new Date().getFullYear();
+      this.frm.type = "customer";
+      this.$store.commit("addUser", this.frm);
       this.$router.replace({ name: "Home" });
     },
   },
