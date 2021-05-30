@@ -48,8 +48,8 @@
           >In favor of the Company</b-form-radio
         >
       </b-form-group>
-      <b-button class="ml-2" @click="cancel()">Cancel</b-button>
-      <b-button type="submit" variant="primary">Close Claim</b-button>
+      <b-button @click="cancel()">Cancel</b-button>
+      <b-button type="submit" variant="info">Close Claim</b-button>
     </b-form>
   </b-container>
 </template>
@@ -107,5 +107,9 @@ export default {
 .label {
   font-weight: bold;
   color: #495057;
+}
+
+.btn {
+  margin-right: 20px;
 }
 </style>

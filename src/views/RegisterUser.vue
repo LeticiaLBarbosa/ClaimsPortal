@@ -177,8 +177,8 @@
               </b-form-invalid-feedback>
             </b-form-group>
           </ValidationProvider>
-          <b-button type="submit" variant="primary">Submit</b-button>
-          <b-button class="ml-2" @click="resetForm()">Reset</b-button>
+          <b-button @click="resetForm()">Reset</b-button>
+          <b-button type="submit" variant="info">Submit</b-button>
         </b-form>
       </ValidationObserver>
     </b-card>
@@ -231,7 +231,7 @@ export default {
     onSubmit() {
       this.frm.userId =
         _.camelCase(this.frm.firstName + this.frm.lastName) +
-        this.frm.taxId.substring(0, 4);
+        this.frm.accountNumber.substring(0, 4);
       this.frm.password =
         _.upperFirst(this.frm.firstName) + "@" + new Date().getFullYear();
       this.frm.type = "customer";
@@ -244,5 +244,9 @@ export default {
 <style>
 .container {
   margin-top: 20px;
+}
+
+.btn {
+  margin-right: 20px;
 }
 </style>

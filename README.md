@@ -1,4 +1,4 @@
-# claimsportal
+# Claims Portal
 
 ## Project setup
 ```
@@ -10,15 +10,14 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Testing data
 
-### Lints and fixes files
-```
-npm run lint
-```
+### Customer account:
+userId: mariaBarbosa1111
+password: Maria@2021
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Employee account:
+userId: janeDoe1234
+password: Jane@2021
+
+### Register new user will generate an user id formed by <firstname><Lastname><first 4 digits of account number> and password formed by <Firstname>@<current year>

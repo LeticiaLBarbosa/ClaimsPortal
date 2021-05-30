@@ -16,7 +16,7 @@ export default new Vuex.Store({
         accountNumber: "111111",
         taxId: "08882047440",
         address: "Some street",
-        userId: "mariaBarbosa0888",
+        userId: "mariaBarbosa1111",
         password: "Maria@2021",
         type: "customer",
       },
